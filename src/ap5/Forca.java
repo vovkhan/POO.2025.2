@@ -15,7 +15,7 @@ public class Forca {
 
     Forca(){
         this.banco = new BancoPalavras();
-        this.palavra = this.sortearNovaPalavra;
+        this.palavra = this.sortearNovaPalavra();
         this.resposta = "—".repeat(this.palavra.length).toCharArray();
         this.errosMaximo = 6;
         this.errosContabilizados = 0;
@@ -35,7 +35,11 @@ public class Forca {
         exibirErrosContabilizados();
     }
     void exibirResultado(){
-        System.out.printf("Palavra: %s.%n", this.palavra);
+        System.out.printf("Palavra: ");
+        for(char letra: this.palavra){
+            System.out.printf("%s ", letra);
+        }
+        System.out.println(".");
         exibirErrosContabilizados();
         String mensagem;
         if(errosContabilizados >= errosMaximo) mensagem = "Você perdeu."; else mensagem = "Você venceu!";
@@ -77,13 +81,13 @@ public class Forca {
     }
 
     void jogar(boolean sortearNovaPalavra){
-        if(sortearNovaPalavra) this.palavra = this.sortearNovaPalavra;
+        if(sortearNovaPalavra) this.palavra = this.sortearNovaPalavra();
 
         while(true){
             this.exibirResposta();
             this.lastLetraSelecionada = this.catchLetra(this.scanner);
             if(this.validarLetra(this.lastLetraSelecionada)){
-                this.atualizarResposta();
+                this.atualizarResposta(lastLetraSelecionada);
             }
         }
     }
