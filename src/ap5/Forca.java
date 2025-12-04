@@ -60,4 +60,10 @@ public class Forca {
         }
         this.letrasEscolhidas.add(letra);
     }
+    boolean respostaIsCorreta(char[] palavra, char[] resposta){
+        for(int i = 0; i < palavra.length; i++){
+            if(palavra[i] != resposta[i]) return false;
+        }
+        return true;
+    }
 }
