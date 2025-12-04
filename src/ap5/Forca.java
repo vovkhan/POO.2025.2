@@ -75,7 +75,6 @@ public class Forca {
     char[] sortearNovaPalavra(){
         return this.banco.sortear().toCharArray();
     }
-    void 
 
     void jogar(boolean sortearNovaPalavra){
         if(sortearNovaPalavra) this.palavra = this.sortearNovaPalavra;
