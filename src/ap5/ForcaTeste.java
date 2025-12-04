@@ -1,4 +1,4 @@
-package AP5;
+package ap5;
 
 public class ForcaTeste {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package AP5;
+package ap5;
 
 import java.util.Random;
 
