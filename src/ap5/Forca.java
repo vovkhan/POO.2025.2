@@ -15,8 +15,8 @@ public class Forca {
 
     Forca(){
         this.banco = new BancoPalavras();
-        this.palavra = this.sortearNovaPalavra();
-        this.resposta = "—".repeat(this.palavra.length).toCharArray();
+        this.palavra = this.banco.sortear().toCharArray();
+        this.resposta = "_".repeat(this.palavra.length).toCharArray();
         this.errosMaximo = 6;
         this.errosContabilizados = 0;
         this.letrasEscolhidas = new ArrayList<Character>();
@@ -28,11 +28,8 @@ public class Forca {
     }
     void exibirResposta(){
         System.out.printf("Resposta: ");
-        for(char letra: this.resposta){
-            System.out.printf("%s ", letra);
-        }
+        for(char ch: this.resposta) System.out.printf("%c ", ch);
         System.out.println(".");
-        exibirErrosContabilizados();
     }
     void exibirResultado(){
         System.out.printf("Palavra: ");
@@ -41,34 +38,32 @@ public class Forca {
         }
         System.out.println(".");
         exibirErrosContabilizados();
-        String mensagem;
-        if(errosContabilizados >= errosMaximo) mensagem = "Você perdeu."; else mensagem = "Você venceu!";
-        System.out.printf("%s%n", mensagem);
     }
     char catchLetra(Scanner scanner){
         char letraSelecionada;
-        System.out.printf("Insira um novo valor: ");
+        System.out.printf("Insira um novo dígito: ");
         letraSelecionada = scanner.nextLine().replace(" ", "").charAt(0);
         return letraSelecionada;
     }
     boolean validarLetra(char letra){ 
         if(Character.isDigit(letra) || this.letrasEscolhidas.contains(letra)){
-            System.err.printf("O valor '%c' já foi escolhido ou é um valor numérico.", letra);
+            System.err.printf("O dígito '%c' já foi escolhido ou é inválido.%n", letra);
             return false;
         }
         return true;
     }
     void atualizarResposta(char letra){
         this.letrasEscolhidas.add(letra);
-
+        boolean letraPresente = false;
         for(int i = 0; i < this.palavra.length; i++){
             if(this.palavra[i] == letra){
                 this.resposta[i] = letra;
-                return;
+                letraPresente = true;
             }
         }
-        this.errosContabilizados++;
-        return;
+        if(!letraPresente){
+            this.errosContabilizados++;
+        }
     }
     boolean respostaIsCorreta(char[] palavra, char[] resposta){
         for(int i = 0; i < palavra.length; i++){
@@ -76,19 +71,32 @@ public class Forca {
         }
         return true;
     }
-    char[] sortearNovaPalavra(){
-        return this.banco.sortear().toCharArray();
+    void sortearNovaPalavra(){
+        this.palavra = this.banco.sortear().toCharArray();
+        this.resposta = "_".repeat(this.palavra.length).toCharArray();
+    }
+    void printPalavra(char[] palavra){
+        for(char ch: palavra) System.out.printf("%c", ch);
     }
 
     void jogar(boolean sortearNovaPalavra){
-        if(sortearNovaPalavra) this.palavra = this.sortearNovaPalavra();
+        if(sortearNovaPalavra) this.sortearNovaPalavra();
 
-        while(true){
+        while(errosContabilizados < 6 && !respostaIsCorreta(this.palavra, this.resposta)){
             this.exibirResposta();
+            this.exibirErrosContabilizados();
             this.lastLetraSelecionada = this.catchLetra(this.scanner);
             if(this.validarLetra(this.lastLetraSelecionada)){
                 this.atualizarResposta(lastLetraSelecionada);
             }
+        }
+        if(respostaIsCorreta(this.palavra, this.resposta)){
+            this.exibirResposta();
+            System.out.println("Você acertou a palavra!");
+        } else {
+            System.out.print("Você perdeu. A palavra era '");
+            this.printPalavra(this.palavra);
+            System.out.println("'.");            
         }
     }
 }
