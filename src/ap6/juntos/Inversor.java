@@ -16,22 +16,26 @@ public class Inversor {
     //     return String.copyValueOf(entradaInvertida);
     // }
 
-    Inversor(String valorEntrada){
-        this.valorOriginal = valorEntrada;
+    Inversor(){}
+
+    void catchValor(Scanner scanner){
+        System.out.printf("Insira o valor: ");
+        this.valorOriginal = scanner.nextLine();
     }
-    void inverter(String valorEntrada){
-        char[] entradaVetor = valorEntrada.toCharArray();
+    void inverter(){
+        char[] entradaVetor = this.valorOriginal.toCharArray();
         char[] entradaInvertida = new char[entradaVetor.length];
-        int i, j;
-        for(i = entradaVetor.length-1, j = 0; i >= 0; i--, j++){
+        int j = 0;
+        for(int i = entradaVetor.length-1; i >= 0; i--){
             entradaInvertida[j] = entradaVetor[i];
+            j++;
         }
         this.valorInvertido = String.copyValueOf(entradaInvertida);
     }
 
     void exibirResultado(){
         System.out.printf("Entrada: %s.%n", this.valorOriginal);
-        System.out.printf("Saída: %s.%n", this.valorInvertido);
+        System.out.printf("Saída:   %s.%n", this.valorInvertido);
     }
     
 }
