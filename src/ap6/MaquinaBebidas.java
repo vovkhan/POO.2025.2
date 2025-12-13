@@ -7,7 +7,7 @@ public class MaquinaBebidas {
     double[] moedasValidas;
     Bebida[] bebidas;
     ArrayList<Double> moedasInseridas;
-    int bebidaEscolhida;
+    int bebidaEscolhidaIndice;
     Scanner scanner;
 
     MaquinaBebidas(){
@@ -21,22 +21,45 @@ public class MaquinaBebidas {
         this.scanner = new Scanner(System.in);
     }
 
-    void inserirMoedas(double[] moedasValidas, ArrayList<Double> moedasArrayList, Scanner scanner){
+    void inserirMoedas(){
         while(true){
             double moeda;
-            System.out.printf("Insira uma moeda: ");
+            System.out.printf("Insira um valor de moeda ou '0' para continuar: ");
             moeda = scanner.nextDouble();
+            if(moeda <= 0) break;
             for(double m: moedasValidas){
                 if(moeda == m){
-                    moedasArrayList.add(moeda);
+                    moedasInseridas.add(moeda);
                 }
             }
         }
     }
-    double contarMoedas(ArrayList<Double> moedasArrayList){
+    double contarMoedas(){
         double soma = 0;
-        for(double m: moedasArrayList) soma += m;
+        for(double m: moedasInseridas) soma += m;
         return soma;
     };
-    void escolherBebida(){}
+    void escolherBebida(){
+        int escolha = 0;
+        System.out.println("Bebidas disponíveis: ");
+        for(int i = 0; i < bebidas.length; i++){
+            System.out.printf("%d. R$%.2f - %s", (i+1), bebidas[i].valor, bebidas[i].nome);
+        }
+        while(escolha < 1 && escolha > bebidas.length){
+            System.out.print("Insira o id da escolha: ");
+            escolha = scanner.nextInt();
+        }
+        this.bebidaEscolhidaIndice = (escolha-1);
+    }
+    boolean saldoSuficiente(){
+        if(this.contarMoedas() < bebidas[bebidaEscolhidaIndice].valor) return false;
+        return true;
+    }
+    void estornarMoedas(){
+        for(int i = 0; i < moedasInseridas.size(); i++){
+            System.out.printf("Moeda estornada: %.2f.%n", moedasInseridas.get(i));
+            moedasInseridas.removeFirst();
+        }
+    }
+    void prepararBebida(){}
 }
