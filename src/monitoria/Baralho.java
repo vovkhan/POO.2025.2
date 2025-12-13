@@ -10,14 +10,14 @@ public class Baralho {
     Random random;
 
     Baralho(){
-        cartas = new ArrayList<Carta>();
+        this.cartas = new ArrayList<Carta>();
         for(int i = 0; i < naipes.length; i++){
             for(int j = 0; j < nomes.length; j++){
-                cartas.add(new Carta(nomes[j], naipes[i]));
+                this.cartas.add(new Carta(nomes[j], naipes[i]));
             }
         }
         for(int k = 0; k < 4; k++){
-            cartas.add(new Carta("Coringa", "Coringa"));
+            this.cartas.add(new Carta("Coringa", "Coringa"));
         }
         random = new Random();
     }
@@ -28,30 +28,30 @@ public class Baralho {
         for(int i = 0; i < naipes.length; i++){
             for(int j = 0; j < nomes.length; j++){
                 index = random.nextInt(indexLimite);
-                cartas.add(cartas.get(index));
-                cartas.remove(index);
+                this.cartas.add(this.cartas.get(index));
+                this.cartas.remove(index);
             }
         }
     }
 
     Carta darCarta(){
         if(this.temCarta()){
-            Carta cartaRetornada = cartas.getLast();
-            cartas.removeLast();
+            Carta cartaRetornada = this.cartas.getLast();
+            this.cartas.removeLast();
             return cartaRetornada;
         }
         return null;
     }
 
     boolean temCarta(){
-        if(cartas.isEmpty()){
+        if(this.cartas.isEmpty()){
             return false;
         }
         return true;
     }
 
     void imprimirBaralho(){
-        for(Carta c: cartas){
+        for(Carta c: this.cartas){
             c.imprimir();
         }
     }
