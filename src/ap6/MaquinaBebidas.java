@@ -38,4 +38,5 @@ public class MaquinaBebidas {
         for(double m: moedasArrayList) soma += m;
         return soma;
     };
+    void escolherBebida(){}
 }
