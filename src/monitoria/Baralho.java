@@ -24,7 +24,7 @@ public class Baralho {
 
     void embaralhar(){
         int index = 0;
-        int indexLimite = (naipes.length * nomes.length) + 4;
+        int indexLimite = cartas.size();
         for(int i = 0; i < naipes.length; i++){
             for(int j = 0; j < nomes.length; j++){
                 index = random.nextInt(indexLimite);
