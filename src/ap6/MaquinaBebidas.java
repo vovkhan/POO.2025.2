@@ -34,9 +34,9 @@ public class MaquinaBebidas {
             }
         }
     }
-    double contarMoedas(){
+    double contarMoedas(ArrayList<Double> moedasArrayList){
         double soma = 0;
-        for(double m: moedasInseridas) soma += m;
+        for(double m: moedasArrayList) soma += m;
         return soma;
     };
     void escolherBebida(){
@@ -46,13 +46,17 @@ public class MaquinaBebidas {
             System.out.printf("%d. R$%.2f - %s", (i+1), bebidas[i].valor, bebidas[i].nome);
         }
         while(escolha < 1 && escolha > bebidas.length){
-            System.out.print("Insira o id da escolha: ");
+            System.out.print("Insira o id da escolha ou '99' para estornar suas moedas: ");
             escolha = scanner.nextInt();
+            if(escolha == 99){
+                estornarMoedas();
+                break;
+            }
         }
         this.bebidaEscolhidaIndice = (escolha-1);
     }
     boolean saldoSuficiente(){
-        if(this.contarMoedas() < bebidas[bebidaEscolhidaIndice].valor) return false;
+        if(this.contarMoedas(moedasInseridas) < bebidas[bebidaEscolhidaIndice].valor) return false;
         return true;
     }
     void estornarMoedas(){
@@ -61,5 +65,26 @@ public class MaquinaBebidas {
             moedasInseridas.removeFirst();
         }
     }
-    void prepararBebida(){}
+    void descontarMoedas(double valor){
+        ArrayList<Double> moedasDescontadas = moedasInseridas;
+        int soma = 0;
+        for(int i = 0; i < moedasInseridas.size(); i++){
+            if(soma == valor) break;
+            for(int j = moedasInseridas.size(); j > 0; j--){
+                if(moedasInseridas.get(i) == moedasValidas[j]){
+                    if(soma != valor){
+                        soma += moedasInseridas.get(i);
+                        moedasDescontadas.remove(moedasInseridas.get(i));
+                    }
+                }
+            }
+        }
+        System.out.printf("Valor inserido: %.2f.%n", contarMoedas(moedasInseridas));
+        System.out.printf("Valor após desconto: %.2f.%n", contarMoedas(moedasDescontadas));
+    }
+    void prepararBebida(){
+        if(saldoSuficiente()){
+            return;
+        }
+    }
 }
