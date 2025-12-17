@@ -65,7 +65,7 @@ public class MaquinaBebidas {
     }
     ArrayList<Double> descontarMoedas(double valor){
         ArrayList<Double> moedasDescontadas = new ArrayList<Double>(moedasInseridas);
-        int soma = 0;
+        double soma = 0;
         for(int i = 0; i < moedasInseridas.size(); i++){
             if(soma == valor) break;
             for(int j = moedasValidas.length-1; j > 0; j--){
