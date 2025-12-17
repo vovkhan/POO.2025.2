@@ -12,7 +12,8 @@ public class Conta {
     Conta(String numero, Cliente cliente, double saldo) {
         this.numero = numero;
         this.cliente = cliente;
-        if(this.isValid(saldo)) this.saldo = saldo;
+        if(saldo >= 0) this.saldo = saldo;
+        else this.saldo = 0;
     }
 
     public String getNumero() {
@@ -25,11 +26,20 @@ public class Conta {
         return this.cliente;
     }
 
-    private boolean isValid(double valor) {
-        return valor >= 0;
+    public boolean debitar(double valor) {
+        if(this.saldo >= valor) {
+            this.saldo -= valor;
+            return true;
+        } else return false;
     }
-
-    public void debitar(double valor) {}
-    public void creditar(double valor) {}
-    public void transferir(Conta destino, double valor) {}
+    public void creditar(double valor) {
+        this.saldo += valor;
+    }
+    public boolean transferir(Conta destino, double valor) {
+        boolean foiDebitado = debitar(valor);
+        if(foiDebitado) {
+            destino.creditar(valor);
+            return true;
+        } else return false;
+    }
 }
